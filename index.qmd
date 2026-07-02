@@ -1,0 +1,33 @@
+---
+title: "Sampling I"
+subtitle: "Lecture Slides · Bachelor's Degree in Statistics — School of Economics (UDELAR)"
+author: "Juan Pablo Ferreira"
+format:
+  html:
+    theme: cosmo
+    toc: false
+    embed-resources: true
+---
+
+A collection of reveal.js slide decks for the **Sampling I** course.
+Open each presentation below (render with `quarto render` first to produce the `.html`).
+
+1. [Introduction to Sample Surveys](01-introduction.html)
+2. [Random Sampling](02-random-sampling.html)
+3. [The Horvitz–Thompson Estimator](03-horvitz-thompson.html)
+4. [Bernoulli Sampling](04-bernoulli-sampling.html)
+5. [Systematic Sampling](05-systematic-sampling.html)
+6. [With-Replacement Designs](06-with-replacement-designs.html)
+7. [Poisson Sampling](07-poisson-sampling.html)
+8. [Probability Proportional to Size (PPS)](08-pps-sampling.html)
+9. [Stratified Sampling](09-stratified-sampling.html)
+10. [Cluster Sampling](10-cluster-sampling.html)
+11. [Two-Stage Sampling](11-two-stage-sampling.html)
+12. [Sample Size Determination](12-sample-size-determination.html)
+13. [Variance Estimation](13-variance-estimation.html)
+14. [Introduction to Domain Estimation](14-domain-estimation.html)
+15. [Introduction to Complex Estimators](15-complex-estimators.html)
+
+---
+
+*Translated from the original LaTeX/Beamer sources.*

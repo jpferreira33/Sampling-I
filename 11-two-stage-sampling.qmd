@@ -1,0 +1,249 @@
+---
+title: "Two-Stage Sampling"
+subtitle: "Sampling I · Bachelor's Degree in Statistics"
+author: "Juan Pablo Ferreira"
+institute: "School of Economics (UDELAR) · juanpablo.ferreira@fcea.edu.uy"
+date: "2024"
+date-format: "YYYY"
+title-slide-attributes:
+  data-background-image: images/logo-fcea.png
+  data-background-size: 108px
+  data-background-position: 34px 30px
+format:
+  revealjs:
+    theme: [default, theme/custom.scss]
+    transition: slide
+    transition-speed: default
+    background-transition: fade
+    slide-number: c/t
+    incremental: true
+    progress: true
+    history: true
+    center: false
+    width: 1200
+    height: 800
+    margin: 0.07
+    scrollable: true
+    html-math-method: mathjax
+    embed-resources: true
+---
+
+# Introduction
+
+## Introduction
+
+The SIC design is not efficient mainly for two reasons:
+
+- The clusters are homogeneous ($\delta >0$).
+- The clusters vary in size ($M_i$ different).
+
+## Cluster sampling
+
+In many cases it is not possible to sample individuals directly. Then, instead of observing all individuals in the clusters, we choose a subsample and estimate $Y_i$. If the clusters are homogeneous, then $\hat{Y}_i$ will have a small SE.
+
+Now we will have two sources of variability:
+
+- In the selection of the PSUs (first-stage design)
+- In the selection of the SSUs (second-stage design)
+
+## Selection mechanism
+
+**First stage**: a sample $s_I$ of PSUs is selected from $U_I$ according to a design $p_I(\cdot)$.
+
+**Second stage**: $\forall\ i\in s_I$ a sample $s_i$ of individuals is selected from $U_i$ according to a design $p_i(\cdot|s_I)$.
+
+We have:
+$$
+s=\bigcup_{i\in s_I}s_i
+$$
+
+Under this scheme we can have any design in the PSUs and $\forall\ i\in s_I$. The design could even depend on the outcome of $s_I$ and vary according to the outcome of $p_I(\cdot)$. The selection is not necessarily independent across $U_i$ and $U_j$ for $i\neq j$.
+
+We will assume the assumptions of **invariance** and **independence**.
+
+## Invariance and independence assumptions (rules for the draw)
+
+::: {.block .alert}
+::: {.block-title}
+Invariance
+:::
+$\forall\ i$ and for any $s_I \ni i$:
+$$
+p_i(\cdot|s_I)=p_i(\cdot)
+$$
+regardless of which PSUs are selected, we **must** use the same design (i.e. **no peeking**).
+:::
+
+::: {.block .alert}
+::: {.block-title}
+Independence
+:::
+$$
+Pr\left(\bigcup_{i \in s_I}s_i\ \Big|\ s_I\right)=\prod_{i \in s_I}Pr(s_i|s_I)
+$$
+Subsampling in one PSU is done independently of the other PSUs.
+:::
+
+When these do not hold, it is called a *two-phase design*.
+
+## Inclusion probabilities
+
+We will assume that in the second stage,
+
+$$
+n_{s_i}\text{ or } n_i\text{ is the sample size of }s_i\text{ and }n_s=\sum\limits_{i \in s_I}n_{s_i}
+$$
+
+**First stage**: $\pi_{Ii}$, $\pi_{Iij}$ with $\Delta_{Iij}=\pi_{Iij}-\pi_{Ii}\pi_{Ij}$
+
+**Second stage**: $\pi_{k|i}$, $\pi_{kl|i}$ with $\Delta_{kl|i}=\pi_{kl|i}-\pi_{k|i}\pi_{l|i}$
+
+$$\pi_k=\pi_{Ii}\pi_{k|i}\text{ if }k \in U_i$$
+$$
+\pi_{kl}= \begin{cases}
+             \pi_{Ii}\pi_{k|i} & \text{if } k = l\in U_i\\
+             \pi_{Ii}\pi_{kl|i}& \text{if } k, l\in U_i,\ k\neq l\\
+             \pi_{Iij}\pi_{k|i}\pi_{l|j}& \text{if } k\in U_i,\ l\in U_j,\ i\neq j
+             \end{cases}
+$$
+
+## Review
+
+To obtain the expectation and variance of $\hat{Y}_{HT}$ it is useful to recall the following property:
+
+If $X$ is a random variable conditioned on the event $A$:
+$$
+E(X)=E_A(X|A)
+$$
+$$
+V(X)=V_A\left[E(X|A)\right]+E_A\left[V(X|A)\right]
+$$
+
+In our case we condition on the realization of the first-stage sample $s_I$.
+
+# The HT Estimator
+
+## Second-stage estimation
+
+Let $\hat{Y}_{i,\text{HT}}=\sum\limits_{k \in s_i}\frac{y_k}{\pi_{k|i}}$ be the estimator of $Y_i$. Under the design $p_i(\cdot)$:
+$$
+E(\hat{Y}_{i,\text{HT}})=Y_i
+$$
+
+The variance $V_i$ is defined as
+
+$$
+V_i=\sum\limits_{k\in U_i}\sum\limits_{l\in U_i}\Delta_{kl|i}\frac{y_k}{\pi_{k|i}}\frac{y_l}{\pi_{l|i}}
+$$
+where $\Delta_{kl|i}=\pi_{kl|i}-\pi_{k|i}\pi_{l|i}$.
+
+The variance estimator is:
+
+$$
+\hat{V}_i=\sum\limits_{k\in s_i}\sum\limits_{l\in s_i}\frac{\Delta_{kl|i}}{\pi_{kl|i}}\frac{y_k}{\pi_{k|i}}\frac{y_l}{\pi_{l|i}}
+$$
+
+## HT estimator
+
+In two-stage sampling the HT estimator of the total $Y$ is:
+$$
+\hat{Y}_{\text{HT}}=\sum\limits_{i\in s_I}\frac{\hat{Y}_{i,HT}}{\pi_{Ii}}
+$$
+The variance is:
+
+$$
+V_{\text{2-stage}}=V_{PSU}+V_{SSU}
+$$
+with
+
+$$
+V_{PSU}=\sum\limits_{i \in U_I}\sum\limits_{j \in U_I}\Delta_{Iij}\frac{\hat Y_{i,HT}}{\pi_{Ii}}\frac{\hat Y_{j,HT}}{\pi_{Ij}}
+$$
+and
+$$
+V_{SSU}=\sum\limits_{i\in U_I}\frac{V_i}{\pi_{Ii}}
+$$
+
+## HT estimator
+
+The first variance component $V_{PSU}$ is estimated unbiasedly by:
+
+$$
+\hat{V}_{PSU}=\sum\limits_{i \in s_I}\sum\limits_{j \in s_I}\frac{\Delta_{Iij}}{\pi_{Iij}}\frac{\hat{Y}_{i,HT}}{\pi_{Ii}}\frac{\hat{Y}_{j,HT}}{\pi_{Ij}}-\sum\nolimits_{s_I}\frac{1}{\pi_{Ii}}\left(\frac{1}{\pi_{Ii}}-1\right)\hat{V}_i
+$$
+
+The estimator of $V_{SSU}$ is:
+
+$$
+\hat{V}_{SSU}=\sum\limits_{i\in s_I}\frac{\hat{V}_i}{\pi_{Ii}^2}
+$$
+An unbiased estimator of $V_{\text{2-stage}}(\hat{Y}_{HT})$ is:
+
+$$
+\hat{V}_{\text{2-stage}}(\hat{Y}_{HT})=\hat{V}_{PSU}+\hat{V}_{SSU}=\sum\limits_{i\in s_I}\sum\limits_{j \in s_I}\frac{\Delta_{Iij}}{\pi_{Iij}}\frac{\hat{Y}_{i,HT}}{\pi_{Ii}}\frac{\hat{Y}_{j,HT}}{\pi_{Ij}}+\sum\limits_{i\in s_I}\frac{\hat{V}_i}{\pi_{Ii}}
+$$
+
+## Remarks
+
+- If $s_I=U_I\Rightarrow \Delta_{Iij}=0 \Rightarrow V_{PSU}=0\Rightarrow V_{\text{2st}}=V_{SSU}=\sum\limits_{i\in U_I}V_i$. This is very "similar" to the variance of the stratified design.
+- If $s_i=U_i\Rightarrow V_{SSU}=0$ and it coincides with the variance of the single-stage cluster design.
+
+# The SISI Design
+
+## SISI design
+
+A sample is selected under SRS of clusters, and then, within each PSU selected in the first stage, an SRS of individuals is selected.
+
+The first-stage inclusion probability is:
+$$
+\pi_{Ii}=\frac{n_I}{N_I}
+$$
+The second-stage inclusion probability is:
+$$
+\pi_{k|i}=\frac{n_i}{M_i}
+$$
+So the inclusion probability of element $k$ is:
+$$
+\pi_k=\frac{n_I}{N_I}\frac{n_i}{M_i}
+$$
+
+## SISI design
+
+The HT estimator under a SISI design is:
+
+$$
+\hat{Y}_{HT}=\sum\limits_{i \in s_I}\frac{N_I}{n_I}\hat{Y}_{i,HT}
+$$
+with $\hat{Y}_{i,HT}=M_i\bar{y}_{i}$. The variance is:
+
+$$
+V_{\text{2-stage}}=N_I^2(1-n_I/N_I)\frac{\text{var}_{U_I}[Y_i]}{n_I}+\frac{N_I}{n_I}\sum\limits_{i\in U_I}M_i^2(1-n_i/M_i)\frac{\text{var}_{U_i}[y]}{n_i}
+$$
+where
+
+$$
+\text{var}_{U_I}[Y_i]=\frac{1}{N_I-1}\sum\limits_{i \in U_I}\left(Y_i-\bar{Y}_{U_I}\right)^2
+$$
+
+$$
+\text{var}_{U_i}[y]=\frac{1}{M_i-1}\sum\limits_{k\in U_i}\left(y_k-\bar{Y}_{i}\right)^2
+$$
+with $\bar{Y}_{i}=\sum\limits_{k\in U_i}y_k/M_i$.
+
+## SISI design
+
+The variance estimator is
+
+$$
+\hat{V}_{\text{2-stage}}=N_I^2(1-n_I/N_I)\frac{\text{var}_{s_I}[\hat Y_{i,HT}]}{n_I}+\frac{N_I}{n_I}\sum\limits_{i \in s_I}M_i^2(1-n_i/M_i)\frac{\text{var}_{s_i}[y]}{n_i}
+$$
+
+with
+$$
+\text{var}_{s_I}[\hat Y_{i,HT}]=\frac{1}{n_I-1}\sum\limits_{i\in s_I}\left(\hat{Y}_{i,HT}-\sum\nolimits_{i\in s_I}\hat{Y}_{i,HT}/n_I\right)^2
+$$
+
+$$
+\text{var}_{s_i}[y]=\frac{1}{n_i-1}\sum\limits_{k\in s_i}\left(y_k-\bar{y}_{i}\right)^2
+$$
+with $\bar{y}_{i}=\sum\limits_{k\in s_i}y_k/n_i$.

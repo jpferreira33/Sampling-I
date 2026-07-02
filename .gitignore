@@ -1,0 +1,13 @@
+# Quarto
+/.quarto/
+*_files/
+*_cache/
+/_site/
+/site_libs/
+
+# Rendered output (uncomment if you do NOT want to commit the HTML)
+# *.html
+
+# OS
+.DS_Store
+Thumbs.db

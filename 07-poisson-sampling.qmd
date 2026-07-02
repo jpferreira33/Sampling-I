@@ -1,0 +1,153 @@
+---
+title: "Poisson Sampling"
+subtitle: "Sampling I · Bachelor's Degree in Statistics"
+author: "Juan Pablo Ferreira"
+institute: "School of Economics (UDELAR) · juanpablo.ferreira@fcea.edu.uy"
+date: "2024"
+date-format: "YYYY"
+title-slide-attributes:
+  data-background-image: images/logo-fcea.png
+  data-background-size: 108px
+  data-background-position: 34px 30px
+format:
+  revealjs:
+    theme: [default, theme/custom.scss]
+    transition: slide
+    transition-speed: default
+    background-transition: fade
+    slide-number: c/t
+    incremental: true
+    progress: true
+    history: true
+    center: false
+    width: 1200
+    height: 800
+    margin: 0.07
+    scrollable: true
+    html-math-method: mathjax
+    embed-resources: true
+---
+
+# Poisson Design
+
+## Poisson design
+
+The Poisson design is a generalization of the Bernoulli design (BE).
+
+There are different inclusion probabilities $\pi_i\ \forall i \in U$.
+
+We generate $N$ independent random numbers $U(0,1)$, $RN_1,\dots,RN_i,\dots,RN_N$.
+
+If $RN_i<\pi_i$ individual $i$ is selected.
+
+The sampling design is:
+
+$$
+p(s)=\prod\limits_{i \in s}\pi_i\prod\limits_{i \in U-s}(1-\pi_i)
+$$
+
+And the sample size $n_s$ is random, with
+
+$$
+E_{PO}(n_s)=\sum\limits_{i \in U}\pi_i \quad\text{and}\quad V_{PO}(n_s)=\sum\limits_{i \in U}\pi_i(1-\pi_i)
+$$
+
+## HT estimator under a PO design
+
+Under the PO design the HT estimator of $Y=\sum\nolimits_{i\in U}y_i$ is:
+
+$$
+\hat{Y}_{\text{HT}}=\sum\limits_{i \in s}\frac{y_i}{\pi_i}
+$$
+
+Since the $I_i$ are independent, $\Delta_{ij}=0\ \forall\,i\neq j$. The variance of $\hat{Y}_{\text{HT}}$ is:
+
+$$
+V_{PO}(\hat{Y}_{\text{HT}})=\sum\limits_{i\in U}\left(\frac{1}{\pi_i}-1\right)y_i^2
+$$
+
+An unbiased estimator of $V_{PO}(\hat{Y}_{\text{HT}})$ is:
+
+$$
+\hat{V}_{PO}(\hat{Y}_{\text{HT}})=\sum\limits_{i \in s}\left(1-\pi_i\right)\frac{y_i^2}{\pi_i^2}
+$$
+
+# Choosing the $\pi_i$
+
+## How do we choose the $\pi_i$?
+
+So as to minimize $V_{PO}(\hat{Y}_{\text{HT}})$ and considering a fixed expected sample size $n$. That is:
+
+$$ \min_{\pi_i}\ \sum\limits_{i\in U}\left(\frac{1}{\pi_i}-1\right)y_i^2 \quad\text{s.t.}\quad n=\sum\limits_{i \in U}\pi_i$$
+
+Since
+
+$$
+\sum\limits_{i\in U}\left(\frac{1}{\pi_i}-1\right)y_i^2=\sum\limits_{i\in U}\frac{y_i^2}{\pi_i}-\sum\limits_{i \in U}y_i^2
+$$
+
+and $n$ is a constant, the problem above is equivalent to minimizing in $\pi_i$ the product
+
+$$
+\left(\sum\limits_{i \in U}\frac{y_i^2}{\pi_i}\right)\left(\sum\limits_{i\in U}\pi_i\right)
+$$
+
+## Choosing the $\pi_i$
+
+::: {.block}
+::: {.block-title}
+Cauchy–Schwarz inequality
+:::
+$$
+\left(\sum\nolimits_{i\in U}x_iz_i\right)^2\leq\left(\sum\limits_{i\in U}x_i^2\right)\left(\sum\limits_{i \in U}z_i^2\right)
+$$
+Equality holds if and only if $x_i=\lambda z_i$.
+:::
+
+Applying the inequality to the previous problem, we obtain:
+
+$$
+\left(\sum\limits_{i \in U}\left(\frac{y_i}{\sqrt{\pi_i}}\right)^2\right)\left(\sum\limits_{i\in U}\left(\sqrt{\pi_i}\right)^2\right)\geq\left(\sum\limits_{i \in U}\frac{y_i}{\sqrt{\pi_i}}\sqrt{\pi_i}\right)^2
+$$
+
+The minimum is reached at equality, which holds when
+
+$$
+\frac{y_i}{\sqrt{\pi_i}}=\lambda\sqrt{\pi_i}\quad\text{i.e. when}\quad\frac{y_i}{\pi_i}=\lambda
+$$
+
+## Choosing the $\pi_i$
+
+Assume $y_i>0 \ \forall i$.
+
+We have $\pi_i=\frac{y_i}{\lambda}$.
+
+Then
+
+$$n=\sum\nolimits_{i\in U}\pi_i=\sum\limits_{i \in U}\frac{y_i}{\lambda}=\frac{Y}{\lambda}$$
+
+Substituting $\lambda$ we obtain:
+
+$$\pi_i=n\frac{y_i}{\sum\limits_{i\in U}y_i}$$
+
+## Choosing the $\pi_i$
+
+It happens that $y$ is unknown, but we may have a variable $x$, known for all of $U$ and possibly correlated with variable $y$. In that case the inclusion probabilities are determined by:
+
+$$\pi_i=n\frac{x_i}{\sum\limits_{i \in U}x_i} $$
+
+These designs are called **probability proportional to size** and the value of $x_i$ is the "measure of size" (MOS) of individual $i$.
+
+If $\frac{y_i}{x_i}\doteq c$ the estimator will have a small variance.
+
+## Conclusions on the PO design
+
+The PO design is a generalization of the BE design, so it also has a random sample size. Suppose for a moment that the values of $y$ are known and the initial $\pi_i$ can be computed. In this case
+
+$$
+\hat Y_{\text{HT}}=\frac{n_s}{n}Y
+$$
+
+The only source of randomness is the sample size $n_s$.
+
+Can a probability-proportional-to-size design of fixed size be implemented?

@@ -1,0 +1,170 @@
+---
+title: "With-Replacement Designs"
+subtitle: "Sampling I · Bachelor's Degree in Statistics"
+author: "Juan Pablo Ferreira"
+institute: "School of Economics (UDELAR) · juanpablo.ferreira@fcea.edu.uy"
+date: "2024"
+date-format: "YYYY"
+title-slide-attributes:
+  data-background-image: images/logo-fcea.png
+  data-background-size: 108px
+  data-background-position: 34px 30px
+format:
+  revealjs:
+    theme: [default, theme/custom.scss]
+    transition: slide
+    transition-speed: default
+    background-transition: fade
+    slide-number: c/t
+    incremental: true
+    progress: true
+    history: true
+    center: false
+    width: 1200
+    height: 800
+    margin: 0.07
+    scrollable: true
+    html-math-method: mathjax
+    embed-resources: true
+---
+
+# Introduction
+
+## Introduction
+
+- in practice it is generally NOT used
+- BUT assuming that sampling was done with replacement does simplify complex calculations
+
+## Introduction
+
+- we draw individuals WITH replacement
+- the "sample" may have duplicates...
+
+**Remark:** $s=\text{sample}=$ a subset of $U$, i.e. there can be no duplicated individuals.
+
+# Simple Random Sampling With Replacement
+
+## SRS w/r
+
+- $m$ draws are made with replacement
+- in each draw the probability is the same
+
+If the size of $U$ is $N$, the probability of selecting an element in each draw is:
+
+$$\frac{1}{N}$$
+
+**Remark:** SRS w/r is also denoted $SIR$.
+
+## SRS w/r
+
+The probability that an individual is selected $r$ times in the $m$ draws is:
+
+$$C_r^m(1/N)^r (1-1/N)^{m-r}$$
+
+The probability that an individual never appears in the sample is:
+
+$$(1-N^{-1})^m$$
+
+The probability that an individual is selected at least once:
+
+$$\pi_i=1-(1-N^{-1})^m \ \ \forall i=1,\dots,N$$
+
+## Ordered sample
+
+- let $i_k$ denote that individual $i$ is selected in draw $k$
+- let $m$ be the total number of draws
+
+**Def:** the vector of selected individuals is called the ordered sample:
+
+$$os=\{i_1,\dots,i_k,\dots,i_m\} $$
+
+$os$ carries information about the order of selection and the multiplicities (i.e. repeats).
+
+## Ordered sample
+
+- the number of ordered samples is $N^m$
+- the ordered design is $p(os)=N^{-m}$ if the size of $os$ is $m$
+
+The sample ($s$) is composed of the $i$ distinct individuals:
+
+$$s=\{i: i=i_k\text{ for some } k, k=1,\dots,m \} $$
+
+**Remark:** the size of the sample $s$ is random.
+
+## Inclusion probabilities induced by SIR
+
+$$\pi_i= 1-(1-N^{-1})^m  \ \forall i \in U$$
+
+$$\pi_{ij}= 1-2(1-N^{-1})^m +(1-2/N)^m \ \forall i \neq j \in U$$
+
+# Unequal-Probability Designs
+
+## With-replacement designs
+
+The idea is to select with replacement but with unequal probabilities:
+
+$$p_1,\dots,p_i,\dots,p_N$$
+
+where
+
+$$\sum\limits_{i\in U} p_i=1 $$
+
+**Remark:** special case $p_i=N^{-1}$.
+
+## With-replacement designs
+
+The probability of selecting the first individual is:
+
+$$P(\text{select individual } i)=p_i \ \forall i=1,\dots,N$$
+
+The selected individual $i_1$ is returned to the population and the same set is used to choose $i_2,\dots,i_m$. The $m$ draws are independent, so the probability of obtaining an ordered sample $i_1,i_2,\dots,i_m$ is:
+
+$$p_{i_1}p_{i_2}\cdots p_{i_m} $$
+
+## Hansen–Hurwitz (HH) estimator for $Y=\sum\limits_{i\in U}y_i$
+
+Note that a single draw (individual) expands to the whole population and is an unbiased estimator.
+
+For example, under $SIR$, $u_i=y_i/p_i=Ny_i$.
+
+If we average the $m$ independent estimators, we also obtain an unbiased estimator of $Y$:
+
+$$\hat Y_{HH}=\frac{1}{m}\sum\limits_{k=1}^m \frac{y_{i_k}}{p_{i_k}}=\frac{1}{m}\sum\limits_{k=1}^m u_{i_k}=\bar u$$
+
+## Hansen–Hurwitz (HH) estimator
+
+The variance of the HH estimator is given by:
+
+$$V(\hat Y_{HH})=\frac{V_1}{m}$$
+
+where
+
+$$V_1=\sum\limits_{i\in U}(y_ip_i^{-1}-Y)^2p_i$$
+
+And an unbiased estimator is:
+
+$$\hat V(\hat Y_{HH})=\frac{\hat V_1}{m}$$
+
+with:
+
+$$\hat V_1=\frac{1}{(m-1)}\sum\limits_{k=1}^m(y_{i_k}p_{i_k}^{-1}-\hat Y_{HH})^2$$
+
+## HH estimator under SIR
+
+Under a SIR design the HH estimator is defined as:
+
+$$\hat Y_{HH}=N\bar y_{os}$$
+
+where $\bar y_{os}$ is the mean of the ordered sample.
+
+The variance of the estimator under SIR is:
+
+$$V_{SIR}(\hat Y_{HH})=N(N-1)\,\text{var}_U[y]/m$$
+
+And an estimator of it is:
+
+$$\hat {V}_{SIR}(\hat Y_{HH})=N^2\,\text{var}_{os}[y]/m$$
+
+And the design effect is:
+
+$$\text{deff}\approx \frac{1}{1-f}$$

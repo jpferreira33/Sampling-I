@@ -1,0 +1,253 @@
+---
+title: "Introduction to Domain Estimation"
+subtitle: "Sampling I · Bachelor's Degree in Statistics"
+author: "Juan Pablo Ferreira"
+institute: "School of Economics (UDELAR) · juanpablo.ferreira@fcea.edu.uy"
+date: "2024"
+date-format: "YYYY"
+title-slide-attributes:
+  data-background-image: images/logo-fcea.png
+  data-background-size: 108px
+  data-background-position: 34px 30px
+format:
+  revealjs:
+    theme: [default, theme/custom.scss]
+    transition: slide
+    transition-speed: default
+    background-transition: fade
+    slide-number: c/t
+    incremental: true
+    progress: true
+    history: true
+    center: false
+    width: 1200
+    height: 800
+    margin: 0.07
+    scrollable: true
+    html-math-method: mathjax
+    embed-resources: true
+---
+
+# Notation
+
+## Setup
+
+Let $U=\{1,\dots,k,\dots,N\}$ be the finite population under study, of size $N$. From $U$ a probability sample $s$ of size $n_s$ is drawn according to a design $p(\cdot)$. Individual $i$ is included in the sample with probability $\pi_i=\text{Prob}\{i \in s\}>0\ \forall i \in U$ (random design).
+
+The inverse of the inclusion probability $w_k=1/\pi_k$ is the sampling (design) weight of individual $i$. Individuals $i$ and $j$ are included with probability $\pi_{ij}=\text{Prob}\{i\text{ and } j \in s\}>0\ \forall i, j \in U$ (measurable design).
+
+We do not consider measurement, nonresponse, or imperfect-frame problems.
+
+## Domains
+
+In general, the goal is to estimate a total $Y=\sum\limits_{i\in U}y_i$ or its population mean $\bar Y=\sum\limits_{i\in U}y_i/N$.
+
+In domain estimation, the interest is to estimate totals or means of the variable of interest $y$ in subsets of the population $U$. Suppose $U$ is partitioned into $D$ domains $U_1,\dots,U_d,\dots,U_D$ and let $N_d$ be the size of $U_d$, which may or may not be known.
+
+$$
+U=\bigcup\limits_{d = 1}^D U_d\qquad\text{and}\qquad N=\sum\limits_{d = 1}^D N_d.
+$$
+
+## Domains
+
+Let $s_d$ be the subset of sample $s$ belonging to domain $U_d$, i.e. $s_d=s\cap U_d$ and $n_{s_d}$ the size of $s_d$:
+
+$$
+s=\bigcup\limits_{d = 1}^D s_d\qquad\text{and}\qquad n_s=\sum\limits_{d = 1}^D n_{s_d}.
+$$
+
+- **Planned domains:** the domains are considered in the design and defined as strata. The domain sample size $n_{s_d}$ is controlled and can be fixed.
+- **Unplanned domains:** the domain is not considered in the design; the sample size is random (and can even be zero).
+
+## Domain indicator variable
+
+The absolute size $N_d$ or the relative size $P_d=N_d/N$ can be viewed as a total and a mean, respectively. It is useful to define a domain-membership indicator:
+
+$$
+d_{i}  = \begin{cases}
+1 & \text{if } i \in U_d \\
+0 & \text{if } i \notin U_d
+\end{cases}
+$$
+
+Then
+
+$$\sum\limits_{i\in U} d_{i}=N_d\qquad\text{and}\qquad \sum\limits_{i\in U} d_i/N=P_d.$$
+
+## Domain sample size
+
+The domain sample size can be written as
+
+$$n_{s_d}=\sum\limits_{i\in U}d_iI_i=\sum\limits_{i\in U_d}I_i,$$
+
+where $I_i$ is the sample-membership indicator. The expected domain sample size is
+
+$$E(n_{s_d})=\sum\limits_{i\in U}d_i\pi_i=\sum\limits_{i\in U_d}\pi_i.$$
+
+For example, under SRS of size $n$ from a population of $N$:
+
+$$E_{SRS}(n_{s_d})=N_dn/N=fP_dN,$$
+
+where $f=n/N$. The sampling rate $f$, the relative domain size $P_d$, and the population size $N$ determine the expected domain sample size.
+
+## Extended variable
+
+A useful tool for domain estimation is the extended variable
+
+$$
+y_{di}  = \begin{cases}
+y_{i} & \text{if } i \in U_d \\
+0 & \text{if } i \notin U_d
+\end{cases}
+$$
+
+In other words, $y_{di}=d_iy_i$. Then, the total of variable $y$ in domain $U_d$, $Y_d=\sum\limits_{i\in U_d} y_{i}=\sum\limits_{i\in U} y_{di}$, can be estimated as the total of the population variable $y_i$.
+
+**Remark:** if $d_i=1\ \forall i\in U$ then $y_d=y$ and $U_d=U$.
+
+# The Horvitz–Thompson Estimator
+
+## HT estimator in domains
+
+The first approach for domain estimation is the HT estimator, which relies only on the inclusion probabilities. The HT estimator of the total of $y$ in domain $U_d$ is
+
+$$
+\hat {Y}_{\text{HT},d}=\sum\limits_{i\in s_d} \frac{y_{i}}{\pi_i}=\sum\limits_{i\in s} \frac{y_{di}}{\pi_i}.
+$$
+
+Then $E(\hat {Y}_{\text{HT},d})=Y_d$ and
+
+$$
+V(\hat {Y}_{\text{HT},d})=\sum\limits_{i\in U}\sum\limits_{j\in U}\Delta_{ij}\frac{y_{di}}{\pi_i}\frac{y_{dj}}{\pi_j},
+$$
+
+where $\Delta_{ij}=\pi_{ij}-\pi_i\pi_j$.
+
+## HT estimator in domains
+
+The HT variance estimator is
+
+$$
+\hat V(\hat {Y}_{\text{HT},d})=\sum\limits_{i\in s}\sum\limits_{j\in s}\frac{\Delta_{ij}}{\pi_{ij}}\frac{y_{di}}{\pi_i}\frac{y_{dj}}{\pi_j}.
+$$
+
+**Example:** under SRS of $n$ from $N$, the HT estimator of $y$ in domain $U_d$ is
+
+$$
+\hat {Y}_{\text{HT},d}=\sum\limits_{i \in s_d}w_iy_i=\left(N/n\right)\sum\limits_{s_d} {y_i}.
+$$
+
+Its variance takes the form
+
+$$
+V_{SRS}(\hat {Y}_{\text{HT},d}) \dot{=} N^2\frac{1-f}{n}P_d\left(\text{var}_{U_d}[y]+Q_d\bar Y_d^2\right),
+$$
+
+where $Q_d=1-P_d$.
+
+# The Hájek Estimator
+
+## Hájek estimator
+
+When the domain size $N_d$ is known, we can use the Hájek estimator:
+
+$$
+\hat Y_{\text{HÁJEK},d}=N_d \tilde y_{s_d},
+$$
+
+where $\tilde y_{s_d}=\sum\limits_{i \in s_d} w_i y_i/\hat N_d$, with $\hat N_d=\sum\limits_{i \in s_d}w_i=\sum\limits_{i \in s}d_iw_i$.
+
+This estimator is usually preferred over the HT estimator. It is a special case of the ratio estimator; its approximate variance is
+
+$$
+AV(\hat Y_{\text{HÁJEK},d})=\sum\limits_{i\in U_d}\sum\limits_{j \in U_d}\Delta_{ij}\left(\frac{y_i-\bar{Y}_{d}}{\pi_i}\right)\left(\frac{y_j-\bar{Y}_{d}}{\pi_j}\right),
+$$
+
+## Hájek estimator
+
+and a variance estimator is
+
+$$
+\hat V(\hat Y_{\text{HÁJEK},d})=\left(\frac{N_d}{\hat {N_d}}\right)^2\sum\limits_{i \in s_d}\sum\limits_{j \in s_d}\frac{\Delta_{ij}}{\pi_{ij}}\left(\frac{y_i-\tilde y_{s_d}}{\pi_i}\right)\left(\frac{y_j-\tilde y_{s_d}}{\pi_j}\right).
+$$
+
+**Remarks:**
+
+- the Hájek estimator uses as auxiliary information the domain-membership indicator and its total $N_d$.
+- to estimate the domain mean $\bar Y_{d}=Y_d/N_d$, whether or not $N_d$ is known, it is preferable to use $\tilde y_{s_d}$.
+
+## HT vs Hájek efficiency
+
+Under SRS, the Hájek estimator is $\hat Y_{\text{HÁJEK},d}=N_d\bar y_{s_d}$ with approximate variance
+
+$$
+AV_{\text{SRS}}(\hat Y_{\text{HÁJEK},d})\dot{=} N^2\frac{1-f}{n}P_d\,\text{var}_{U_d}[y].
+$$
+
+Comparing with the HT variance:
+
+$$
+\frac{V_{SRS}(\hat Y_{\text{HT},d})}{AV_{SRS}(\hat Y_{\text{HÁJEK},d})}\ \dot{=}\ 1+\frac{Q_d}{cv_{U_d}[y]^2},
+$$
+
+where $cv_{U_d}[y]=\text{sd}_{U_d}[y]/\bar Y_{d}$. For example, if $cv_{U_d}[y]=0.5$ and the domain is a small share of the population ($Q_d\approx 1$), the HT variance is about five times larger; if the domain is 50% of the population ($Q_d=0.5$), the HT variance is about three times larger.
+
+# Effect of a Random Domain Sample Size
+
+## Planned vs unplanned domain
+
+Suppose the domain $U_d$ can be identified a priori and its sample size can be fixed (planned domain treated as a stratum, SRS of size $n_d$). The HT estimator for $Y_d$ is $N_d\bar y_{s_d}$ with variance
+
+$$
+V_{\text{SRS}}(N_d\bar y_{s_d})=N_d^2\left(\frac{1}{n_{d}}-\frac{1}{N_d}\right)\text{var}_{U_d}[y].
+$$
+
+Comparing with the approximate Hájek variance $AV_{\text{SRS}}(\hat Y_{\text{HÁJEK},d})\dot{=}N_d^2\left(\frac{1}{n_{d}^0}-\frac{1}{N_d}\right)\text{var}_{U_d}[y]$, where $n_d^0=nN_d/N$ is the expected domain sample size: if the fixed $n_d$ equals $E(n_{s_d})=n_d^0$, both variances are approximately equal.
+
+## Conditioning on the domain sample size
+
+Let $A_d$ be the event $\{n_{s_d}\geq 1\}$. For $n$ large, $P(A_d)\approx 1$. For a fixed $n_{s_d}\geq 1$, $s_d=s\cap U_d$ behaves like an SRS of size $n_{s_d}$ from $N_d$. Then
+
+$$
+E_{\text{SRS}}(\hat Y_{\text{HÁJEK},d}| A_d)=Y_d,
+$$
+
+$$
+V_{\text{SRS}}(\hat Y_{\text{HÁJEK},d} | A_d )=N_d^2\left(E\left(\frac{1}{n_{s_d}} \Big| A_d \right)-\frac{1}{N_d}\right)\text{var}_{U_d}[y].
+$$
+
+## Unconditional variance
+
+Assuming $P(n_{s_d}=0)\dot{=}0$ and using a second-order Taylor expansion,
+
+$$
+E_{SRS}\left(\frac{1}{n_{s_d}}\right)\dot{=} \frac{1}{n_d^0}+\frac{(1-f)(1-P_d)}{(n_d^0)^2},
+$$
+
+with $n_d^0=nP_d$. Therefore
+
+$$
+V_{\text{SRS}}(\hat Y_{\text{HÁJEK},d})=N_d^2\left(\frac{1}{n_d^0}-\frac{1}{N_d}\right)\left(1+\frac{Q_d}{n_d^0}\right)\text{var}_{U_d}[y].
+$$
+
+## Loss of precision
+
+Comparing with the fixed-size variance:
+
+$$
+\frac{V_{\text{SRS}}(\hat Y_{\text{HÁJEK},d})}{V_{\text{SRS}}(N_d\bar y_{s_d})}\ = \ 1+\frac{Q_d}{n_{d}^0}.
+$$
+
+If $n$ is much larger than $n_d^0=nP_d$, this is approximately $1+1/n_d^0$. Hence there is a non-negligible loss of precision from not controlling the domain sample size when the expected sample size is small.
+
+The conditional variance is estimated unbiasedly (given $n_{s_d}\geq 2$) by
+
+$$
+\hat V_{SRS}^*=N_d^2\left(\frac{1}{n_{s_d}}-\frac{1}{N_d}\right)\text{var}_{s_d}[y].
+$$
+
+## Conclusions
+
+- A random domain sample size introduces an additional source of variability; such estimators are generally less efficient than those with a controlled sample size. This loss of precision is negligible as the expected domain sample size increases.
+- The use of auxiliary information is essential to produce more precise estimators. The domain-membership indicator (which requires knowing $N_d$) yields the Hájek estimator, which has lower variance than the HT estimator, especially in small domains.
+- Therefore, the availability of strong auxiliary information is essential in domains where the sample size is small.

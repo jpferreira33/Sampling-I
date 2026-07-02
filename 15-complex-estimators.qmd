@@ -1,0 +1,184 @@
+---
+title: "Introduction to Complex Estimators"
+subtitle: "Sampling I · Bachelor's Degree in Statistics"
+author: "Juan Pablo Ferreira"
+institute: "School of Economics (UDELAR) · juanpablo.ferreira@fcea.edu.uy"
+date: "2024"
+date-format: "YYYY"
+title-slide-attributes:
+  data-background-image: images/logo-fcea.png
+  data-background-size: 108px
+  data-background-position: 34px 30px
+format:
+  revealjs:
+    theme: [default, theme/custom.scss]
+    transition: slide
+    transition-speed: default
+    background-transition: fade
+    slide-number: c/t
+    incremental: true
+    progress: true
+    history: true
+    center: false
+    width: 1200
+    height: 800
+    margin: 0.07
+    scrollable: true
+    html-math-method: mathjax
+    embed-resources: true
+---
+
+# Introduction
+
+## Introduction to complex estimation problems
+
+So far we have focused (almost exclusively) on estimating totals, $Y=\sum\limits_{i \in U}y_i$.
+
+Now we begin to work with the estimation of more complex parameters.
+
+::: {.block}
+::: {.block-title}
+Example
+:::
+A ratio is the quotient of two totals:
+$$R=\frac{\sum\limits_{i \in U}y_i}{\sum\limits_{i \in U}z_i}=\frac{Y}{Z}$$
+How do we estimate it?
+$$\hat{R}=\frac{\hat{Y}_{HT}}{\hat{Z}_{HT}} $$
+$\hat{R}$ is not an unbiased estimator of $R$.
+:::
+
+## Introduction to complex estimation problems
+
+In general we have a population parameter $\theta$ that can be written as a function of totals $Y_1,\dots,Y_q,\dots,Y_Q$ such that:
+
+$$\theta=f\left(Y_1,\dots,Y_q,\dots,Y_Q\right) $$
+
+where $Y_q=\sum\nolimits_{i \in U}y_{qi}$.
+
+The estimator of $\theta$ is
+
+$$
+\hat{\theta}=f\left(\hat{Y}_{1,HT},\dots,\hat{Y}_{q,HT},\dots,\hat{Y}_{Q,HT}\right)
+$$
+
+If $f$ is linear, its properties are easily proven. The problem is: **what happens when it is not linear?**
+
+# Taylor Linearization
+
+## Taylor linearization for variance estimation
+
+We want to estimate the variance of $\hat{\theta}=f\left(\hat{Y}_{1,HT},\dots,\hat{Y}_{Q,HT}\right)$.
+
+If $f$ is linear:
+
+$$
+\theta=a_0+\sum\limits_{q=1}^{Q}a_qY_q\Rightarrow \hat{\theta}=a_0+\sum\limits_{q=1}^{Q}a_q\hat{Y}_{q,HT}
+$$
+
+The estimator is unbiased, because it is a linear combination of HT estimators.
+
+## Taylor linearization for variance estimation
+
+We can rewrite $\hat{\theta}$ as:
+$$
+\hat{\theta}=a_0+\sum\limits_{s}\frac{u_i}{\pi_i}
+$$
+with $u_i=\sum\limits_{q=1}^{Q}a_qy_{qi}$.
+
+Then
+
+$$
+V(\hat{\theta})=V\left(\sum\limits_{i \in s}\frac{u_i}{\pi_i}\right)=
+\sum\limits_{i \in U}\sum\limits_{j \in U}\Delta_{ij}\frac{u_{i}}{\pi_i}\frac{u_{j}}{\pi_j}
+$$
+and
+$$
+\hat{V}(\hat{\theta})=
+\sum\limits_{i \in s}\sum\limits_{j \in s}\frac{\Delta_{ij}}{\pi_{ij}}\frac{u_{i}}{\pi_i}\frac{u_{j}}{\pi_j}
+$$
+
+## Taylor linearization for variance estimation
+
+For the case of nonlinear $f$, we linearize by Taylor and approximate $\hat{\theta}$ by its first-order expansion.
+
+The approximation of the function $f$ at the point $Y_1,\dots,Y_Q$ is:
+
+$$
+\hat{\theta}\doteq \hat{\theta}_0=\theta+\sum\limits_{q=1}^{Q}a_q\left(\hat{Y}_{q,HT}-Y_q\right)
+$$
+
+where $\hat{\theta}_0$ is a pseudo-estimator, a linear function of $\hat{Y}_{1,HT},\dots,\hat{Y}_{Q,HT}$ with
+
+$$
+a_q=\left. \frac{\partial f}{\partial \hat{Y}_{q,HT}} \right|_{(\hat{Y}_{1,HT},\dots,\hat{Y}_{Q,HT})=(Y_1,\dots,Y_Q)}
+$$
+
+## Taylor linearization for variance estimation
+
+For computing the variance we use the $u_i$ defined earlier. Then:
+
+$$
+AV(\hat{\theta})=V(\hat{\theta}_0)=V\left(\sum\limits_{i \in s}\frac{u_i}{\pi_i}\right)=\sum\limits_{i\in U}\sum\limits_{j\in U}\Delta_{ij}\frac{u_{i}}{\pi_i}\frac{u_{j}}{\pi_j}
+$$
+
+The problem is that we do not know the values of $a_q$ and therefore must estimate them:
+
+$$ \hat{u}_i=\sum\limits_{q=1}^{Q}\hat{a}_qy_{qi}$$
+
+Then:
+
+$$
+\hat{V}(\hat{\theta})=
+\sum\limits_{i\in s}\sum\limits_{j\in s}\frac{\Delta_{ij}}{\pi_{ij}}\frac{\hat{u}_{i}}{\pi_i}\frac{\hat{u}_{j}}{\pi_j}
+$$
+
+# The Ratio Estimator
+
+## Estimator of a ratio $R$
+
+::: {.block}
+::: {.block-title}
+Result
+:::
+$$
+\hat{R}\doteq \hat{R}_0=R+\frac{1}{Z}\sum\limits_{i \in s}\frac{y_i-Rz_i}{\pi_i}
+$$
+
+$\hat{R}$ is approximately unbiased for $R$, with approximate variance
+
+$$
+AV(\hat{R})=V(\hat{R}_0)=\frac{1}{Z^2}\sum\limits_{i\in U}\sum\limits_{j \in U}\Delta_{ij}\frac{(y_i-Rz_i)}{\pi_i}\frac{(y_j-Rz_j)}{\pi_j}
+$$
+
+The variance estimator is
+
+$$
+\hat{V}(\hat{R})=\frac{1}{\hat{Z}_{HT}^2}\sum\limits_{i\in s}\sum\limits_{j\in s}\frac{\Delta_{ij}}{\pi_{ij}}\frac{(y_i-\hat{R}z_i)}{\pi_i}\frac{(y_j-\hat{R}z_j)}{\pi_j}
+$$
+:::
+
+## Ratio estimator $\hat{Y}_{ra}$
+
+This method leads to what in Sampling II will be known as the Ratio Estimator. In the context of regression estimators, auxiliary information is used to improve the precision of the estimate of $Y$.
+
+The goal is to estimate $Y$, and the following estimator is proposed:
+
+$$
+\hat{Y}_{ra}=Z\times \frac{\hat{Y}_{HT}}{\hat{Z}_{HT}}
+$$
+
+Here $Z$ **must be known**. In this way the ratio estimator corrects the HT estimator by the ratio between the estimate of the total of $z$ and its true value.
+
+## Ratio estimator $\hat{Y}_{ra}$
+
+The approximate variance of $\hat{Y}_{ra}$ is given by
+
+$$
+AV(\hat{Y}_{ra})=\sum\limits_{i\in U}\sum\limits_{j\in U}\Delta_{ij}\frac{(y_i-Rz_i)}{\pi_i}\frac{(y_j-Rz_j)}{\pi_j}
+$$
+
+The variance estimator is
+
+$$
+\hat{V}(\hat{Y}_{ra})=\left(\frac{Z}{\hat{Z}_{HT}}\right)^2\sum\limits_{i\in s}\sum\limits_{j \in s}\frac{\Delta_{ij}}{\pi_{ij}}\frac{(y_i-\hat{R}z_i)}{\pi_i}\frac{(y_j-\hat{R}z_j)}{\pi_j}
+$$

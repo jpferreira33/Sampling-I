@@ -1,0 +1,148 @@
+---
+title: "Probability Proportional to Size (PPS)"
+subtitle: "Sampling I · Bachelor's Degree in Statistics"
+author: "Juan Pablo Ferreira"
+institute: "School of Economics (UDELAR) · juanpablo.ferreira@fcea.edu.uy"
+date: "2024"
+date-format: "YYYY"
+title-slide-attributes:
+  data-background-image: images/logo-fcea.png
+  data-background-size: 108px
+  data-background-position: 34px 30px
+format:
+  revealjs:
+    theme: [default, theme/custom.scss]
+    transition: slide
+    transition-speed: default
+    background-transition: fade
+    slide-number: c/t
+    incremental: true
+    progress: true
+    history: true
+    center: false
+    width: 1200
+    height: 800
+    margin: 0.07
+    scrollable: true
+    html-math-method: mathjax
+    embed-resources: true
+---
+
+# Overview
+
+## Probability-proportional-to-size designs
+
+We will study them in two contexts:
+
+1. Fixed-size designs with replacement, using the estimator $\hat{Y}_{HH}$ ($pps$).
+2. Fixed-size designs without replacement, using the estimator $\hat{Y}_{\text{HT}}$ ($\pi ps$).
+
+# The $pps$ Design
+
+## $pps$ design
+
+**Review**
+
+The HH estimator
+
+$$
+\hat{Y}_{HH}=\frac{1}{m}\sum\limits_{k=1}^m\frac{y_{i_k}}{p_{i_k}}
+$$
+
+is unbiased for $Y=\sum\nolimits_{i\in U}y_i$.
+
+Its variance is given by:
+
+$$
+V(\hat{Y}_{HH})=\frac{V_1}{m}
+$$
+
+where
+
+$$
+V_1=\sum\limits_{i \in U}\left(\frac{y_i}{p_i}-Y\right)^2p_i
+$$
+
+## $pps$ design
+
+If $y_i/x_i= c$, the estimator $\hat{Y}_{HH}=c$, i.e. it takes the value of a constant, and therefore has zero variance. For this to happen, $p_i \propto x_i$; then, since the design is with replacement,
+
+$$
+p_i=\frac{x_i}{\sum_{i\in U}x_i}
+$$
+
+In this case
+
+$$
+\hat{Y}_{HH}=\left(\sum\limits_{i \in U}x_i\right)\frac{1}{m}\sum\limits_{k=1}^m\frac{y_{i_k}}{x_{i_k}}
+$$
+
+Note that $\sum\limits_{i \in U} x_i$ is constant, and if $x_i$ is proportional to $y_i\ \forall i$ the second term is also a constant. If this happens, the estimator has zero variance.
+
+# The $\pi ps$ Design
+
+## $\pi ps$ design
+
+We have the HT estimator,
+
+$$
+\hat{Y}_{\text{HT}}=\sum\limits_{i \in s}\frac{y_i}{\pi_i}
+$$
+
+If $y_i/\pi_i= c, \ \forall i \in U$, the estimator $\hat{Y}_{\text{HT}}=nc$, i.e. it takes the value of a constant and, as in the previous case, has zero variance.
+
+## $\pi ps$ design
+
+If
+
+$$
+\pi_i=n\frac{x_i}{\sum_{i \in U}x_i}
+$$
+
+it may happen that $nx_i>\sum_{i \in U}x_i$. If this happens, $\pi_i>1$ and does not satisfy the condition $0<\pi_i\leq 1$. To solve this problem, we set $\pi_i=1$ for the cases where $nx_i>\sum_U x_i$, and call $A$ this subset of $U$. Then
+
+For $i \in U-A$ we compute
+
+$$
+\pi_i=\left(n-n_A\right)\frac{x_i}{\sum_{U-A}x_i}
+$$
+
+If it happens again, we iterate until all $\pi_i\leq 1$.
+
+## $\pi ps$ design
+
+In implementing the $\pi ps$ design we must achieve $\pi_i \propto x_i$, with $x_1,\dots,x_N$ known. It is not easy to build an algorithm satisfying the following conditions:
+
+1. The selection is simple.
+2. $\pi_i \propto x_i$ holds.
+3. All the $\pi_{ij}$ are positive.
+4. The $\pi_{ij}$ can be computed.
+5. $\Delta_{ij}<0$.
+
+There are many ways to do this and they can be quite cumbersome. Some methods are Brewer, Sampford, Pivotal, among others. We will present one of the most widely used and simplest to implement: the systematic $\pi ps$ design.
+
+## Systematic $\pi ps$ design
+
+We define the cumulative values for variable $x$, such that:
+
+$$T_0=0,\ T_1=x_1,\ T_2=x_1+x_2,\ \dots,\ T_i=T_{i-1}+x_i,\ \dots,\ T_N=\sum\nolimits_U x_i$$
+
+Fix a sampling interval $a$. Let $n$ be the integer part of $\frac{T_N}{a}\Rightarrow$
+
+$$
+T_N=na+c,\ \ \text{with } 0\leq c< a
+$$
+
+Assume $nx_i\leq T_N-c$. The selection scheme is:
+
+1. Select a random start $r$ between 1 and $a$ with equal probability $1/a$.
+2. The sample is formed by:
+$$
+s:\left\{T_{k-1}<r+(j-1)a\leq T_k \text{ for some } j=1,\dots,n_s\right\}=s_r
+$$
+
+In this case
+
+$$
+\pi_i=\frac{nx_i}{T_N-c}
+$$

@@ -1,0 +1,101 @@
+---
+title: "Bernoulli Sampling"
+subtitle: "Sampling I · Bachelor's Degree in Statistics"
+author: "Juan Pablo Ferreira"
+institute: "School of Economics (UDELAR) · juanpablo.ferreira@fcea.edu.uy"
+date: "2024"
+date-format: "YYYY"
+title-slide-attributes:
+  data-background-image: images/logo-fcea.png
+  data-background-size: 108px
+  data-background-position: 34px 30px
+format:
+  revealjs:
+    theme: [default, theme/custom.scss]
+    transition: slide
+    transition-speed: default
+    background-transition: fade
+    slide-number: c/t
+    incremental: true
+    progress: true
+    history: true
+    center: false
+    width: 1200
+    height: 800
+    margin: 0.07
+    scrollable: true
+    html-math-method: mathjax
+    embed-resources: true
+---
+
+# Bernoulli Design
+
+## Introduction
+
+In the Bernoulli design (BE) the indicator variables are iid:
+
+$$I_i \sim \text{Bernoulli}(\pi)  \ \ \forall i \in U$$
+
+1. We fix a value of $\pi$.
+2. We generate $RN\sim U(0,1) \ \ \forall i \in U$.
+3. The sample $s$: the individuals whose $RN\leq \pi$.
+4. $P[I_i=1]=\pi$ and $P[I_i=0]=1-\pi$.
+5. the sample size is not fixed (i.e. it is random).
+
+## Inclusion probabilities and sample size
+
+- $\pi_i=\pi \ \ \forall i \in U$
+- $\pi_{ij}=\pi^2 \ \ \forall i \neq j \in U$
+- $\Delta_{ij}=0$
+
+The sample size ($n_s$) is random and follows a binomial distribution:
+
+$$n_s \sim \text{Binomial}(N,\pi) $$
+
+where $E(n_s)=N\pi$ and $V(n_s)=N\pi(1-\pi)$.
+
+## Bernoulli design
+
+If $n_s$ is the (expected) sample size, the BE design can be written as:
+
+$$p(s)=\pi^{n_s}(1-\pi)^{N-n_s}$$
+
+If we approximate the binomial using the CLT:
+
+$$N\pi \pm z_{1-\alpha/2}\sqrt{N\pi(1-\pi)}$$
+
+# Estimation
+
+## HT estimator
+
+The HT estimator for the total of variable $y$ is:
+
+$$\hat Y_{\text{HT}}=\frac{1}{\pi}\sum\limits_{i\in s} y_i=w \sum\limits_{i\in s} y_i $$
+
+The variance of the estimator is:
+
+$$V_{BE}(\hat Y_{\text{HT}})=(\pi^{-1}-1)\sum\limits_{i\in U} y_i^2 $$
+
+And a variance estimator is:
+
+$$\hat {V}_{BE}(\hat Y_{\text{HT}})=\pi^{-1}(\pi^{-1}-1)\sum\limits_{i\in s} y_i^2 $$
+
+## Alternative estimator
+
+Let $n_{exp}=N\pi$ be the expected sample size.
+
+The alternative estimator of $Y$ is given by:
+
+$$ \hat Y_{\text{alt}}=\frac{n_{exp}}{n_s}\hat Y_{\text{HT}}=\frac{N}{n_s}\sum\limits_{i\in s} y_i$$
+
+We can approximate the variance as in SRS:
+
+$$V(\hat Y_{\text{alt}})\approx N^2(1-n_s/N)\,\text{var}_U[y]/n_s $$
+
+Applying the correction $\frac{n_{exp}}{n_s}$ removes variability from the estimator compared to the HT estimator.
+
+## Design effect
+
+The design effect is:
+
+$$ \text{deff}(BE,\hat Y_{HT})=1-\frac{1}{N}+\frac{1}{(\text{cv}_U[y])^2}\approx 1+\frac{1}{(\text{cv}_U[y])^2}$$

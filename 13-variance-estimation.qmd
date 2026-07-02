@@ -1,0 +1,248 @@
+---
+title: "Variance Estimation"
+subtitle: "Sampling I · Bachelor's Degree in Statistics"
+author: "Juan Pablo Ferreira"
+institute: "School of Economics (UDELAR) · juanpablo.ferreira@fcea.edu.uy"
+date: "2024"
+date-format: "YYYY"
+title-slide-attributes:
+  data-background-image: images/logo-fcea.png
+  data-background-size: 108px
+  data-background-position: 34px 30px
+format:
+  revealjs:
+    theme: [default, theme/custom.scss]
+    transition: slide
+    transition-speed: default
+    background-transition: fade
+    slide-number: c/t
+    incremental: true
+    progress: true
+    history: true
+    center: false
+    width: 1200
+    height: 800
+    margin: 0.07
+    scrollable: true
+    html-math-method: mathjax
+    embed-resources: true
+---
+
+# Introduction
+
+## Introduction
+
+- Once data collection is complete, it is good practice to compute the standard errors (the square root of the variance) to measure the precision of the estimates, either through the $CV$ and/or the $CI$.
+- Capturing all the components that influence the SE of an estimate can be difficult or impossible; therefore, the idea is to obtain an estimate of the SE that captures most of the variability of the estimates.
+
+## Components of the SE
+
+The components that affect the SE of an estimate are:
+
+1. the structure of the population
+2. the sample size $n$. Obviously!
+3. the selection strategy (sampling design)
+4. nonresponse adjustments (**Sampling II**)
+5. the estimation method (**Sampling II**)
+6. the type of parameter (e.g. total, mean, ratio, etc.)
+
+## Methods for computing the SEs
+
+- exact
+- the ultimate cluster method together with Taylor linearization
+- replication or resampling (e.g. JK1, JKn, Bootstrap)
+
+## Requirements for a "good" estimator
+
+An estimator of $\text{Var}(\hat \theta)$ should:
+
+1. be (at least) approximately unbiased
+2. be stable
+3. produce confidence intervals with the expected coverage level
+
+# Approximating the Variance
+
+## Variance estimator
+
+The variance of the HT estimator for a total $Y$ under any sampling design $p(s)$ is given by:
+
+$$\hat V (\hat Y_{\text{HT}}) =\sum\limits_{i\in s} \sum\limits_{j \in s} \frac{\pi_{ij}-\pi_i\pi_j}{\pi_{ij}}\frac{y_i}{\pi_i} \frac{y_j}{\pi_j}$$
+
+**What is the problem?**
+
+- depending on the type of design, the second-order inclusion probabilities ($\pi_{ij}$) can be difficult or **impossible** to compute.
+
+## Strategies for variance estimation
+
+As a first step we will:
+
+- assume that the sampling was carried out WITH replacement
+
+This relaxes the need to know the second-order inclusion probabilities.
+
+## Example 1 — SRS (SI) vs SIR
+
+Under SRS:
+
+$$ \hat Y = \sum\limits_{i\in s} w_i y_i=N\times \bar y$$
+
+$$\hat V(\hat Y)= N^2(1-f)\frac{\text{var}_s[y]}{n}$$
+
+where $f=n/N$ is the sampling rate.
+
+## Example 1 — SI vs SIR
+
+If the sampling rate $f$ is close to zero, we can use a biased (but simplified) estimate assuming SIR (SRS w/r):
+
+$$ \hat V_o= N^2\frac{\text{var}_s[y]}{n} $$
+
+What is the bias of the estimator?
+
+$$\frac{E(\hat V_0)-V}{V}=\frac{f}{1-f}$$
+
+if $f \approx 0$ the bias is negligible.
+
+## Example 2
+
+- Assume the sample was selected under any design that assigns unequal inclusion probabilities (e.g. $\pi ps$).
+- Problem? $\pi_{ij}$ difficult or impossible to compute.
+
+An approximation can be:
+
+$$\hat V_0 = \frac{1}{n(n-1)}\times \sum\limits_{i\in s} (y_iw_in-\hat Y)^2 $$
+
+## Conclusions
+
+- assuming sampling was done with replacement saves us from computing the $\pi_{ij}$ (if we even can).
+- although the estimator is biased, it is biased on the "good side" since it overestimates the variance and therefore we are being conservative.
+
+## Variance approximation example (systematic)
+
+There is **NO** unbiased estimator of the variance because some second-order inclusion probabilities $\pi_{ij}=0$.
+
+**Two scenarios**:
+
+- if the population has no order, we can assume simple random sampling.
+- if the population has an order (using an auxiliary variable $x$ correlated with variable $y$), we can create pseudo-strata by grouping units in pairs so as not to overestimate the variance.
+
+# The Ultimate Cluster Method
+
+## Ultimate cluster method
+
+- assumes that the largest variability in the estimate comes from the first sampling stage (i.e. selection of the PSUs)
+- assumes that the PSUs are selected, as in the previous cases, with replacement
+- in practice, multistage designs include some kind of stratification of the PSUs
+
+## Ultimate cluster method
+
+In this case the variance estimator takes the following form:
+
+$$\hat V_{UC}(\hat Y)=\frac{1}{n_I(n_I-1)}\times \sum\limits_{i \in s_I} (\hat Y_{i}^{*}-\hat Y)^2 $$
+
+where:
+
+- $n_I$ is the number of selected PSUs
+- $\hat Y_{i}^{*}=\sum\limits_{k\in s_{i}}\frac{y_k}{\pi_k}$
+- $\hat Y$ is the estimate of $Y$
+
+## Domain variance estimation
+
+If the objective is to estimate the total of variable $y$ but for a domain or estimation area $d$, the SE is obtained by replacing variable $y$ with the extended variable $y_d$, which takes the value $y$ for the sample cases included in domain $d$ and zero otherwise.
+
+This technique is used to add extra variability to the estimates, because the sample size in the domain (for example, people aged 15 to 24) is random.
+
+# Replication / Resampling
+
+## Replication or resampling
+
+Resampling or replication methods are used mostly to obtain estimates of the SEs of nonlinear estimators.
+
+The idea is to select a sufficient number of subsamples (replicates) of the original sample $s$ and then summarize the properties of a statistic across all the replicates.
+
+There is a wide range of techniques (we see two):
+
+- **Jackknife**
+- **Bootstrap**
+
+## Resampling
+
+- all methods select only subsamples or replicates within the PSUs included in the original sample ($s$)
+- subsamples are **NOT** selected for units (e.g. households or people) within the PSU they belong to.
+- all units within a PSU are retained.
+- the weights $w$ for the units included in a replicate are adjusted in different ways depending on the resampling method.
+
+## Jackknife
+
+The Jackknife method for direct and **unstratified** samples is carried out by creating replicates, dropping one sample unit at a time and "reweighting" the remaining units to produce the population estimates in each replicate.
+
+## Jackknife
+
+If unit $i$ of a random sample of size $n$ is dropped (left out), the weight for unit $j$ included in the "retained" units is:
+
+$$w_{j(i)} = \frac{n}{n-1}w_{j} $$
+
+Then, the estimate of the total of variable $y$ computed with replicate $i$ is:
+
+$$\hat Y_{(i)}=\sum \limits_{j\in s_{(i)}} w_{j(i)} \times y_j  $$
+
+where $s_{(i)}$ is the original sample excluding unit $i$.
+
+## Jackknife
+
+This process is carried out for each of the $n$ units of the sample, so we form $n$ replicates.
+
+The Jackknife variance estimator is computed as follows:
+
+$$ v_J= \frac{n-1}{n}\times \sum\limits_{i=1}^n (\hat Y_{(i)}-\hat Y)^2$$
+
+the above estimator is applicable to unstratified designs and is called **JK1**.
+
+## Jackknife
+
+For example, under SRS (SI) the variance of the estimator $\hat Y = N\bar y$ becomes:
+
+$$ \frac{N^2}{n(n-1)}\times \sum\limits_{i \in s} (y_i-\bar y)^2$$
+
+## Jackknife
+
+**Important:** under multistage designs, **"dropping a unit"** means **"dropping a PSU"**.
+
+Dropping a PSU means that all units belonging to it are removed from the replicate.
+
+That means the weight of the retained units is defined as their original weight $w_i$ multiplied by the factor $n_I/(n_I-1)$.
+
+## Jackknife
+
+When the design is stratified, the Jackknife method is applied within each stratum.
+
+If unit $i$ belonging to stratum $h$ of a sample of size $n_h$ is dropped (left out), the weight for unit $j$ included in the "retained" units in stratum $h$ is:
+
+$$w_{j(hi)} = \frac{n_h}{n_h-1}w_{ih} $$
+
+this method is called **JKn**.
+
+## Bootstrap
+
+- the Bootstrap method was introduced by Efron (1982) and is used in a wide variety of areas of statistics.
+- there are many variations of Efron's original method, but the **Rao–Wu** variation is generally used.
+- the Rao–Wu Bootstrap method applies to random, stratified and multistage designs.
+
+## Rao–Wu Bootstrap
+
+- in each stratum $h$ a simple random sample with replacement of size $m_{h}$ of the PSUs is selected among the $n_{h}$ originally selected PSUs.
+- Let $m_{hj}^b$ be the number of times PSU $j$ is selected in replicate $b$, called the multiplicity factor:
+$$\sum_{j=1}^{n_{h}} m_{hj}^b=n_{h}-1$$
+- A replicate weight is created for each of the units $k$ included in the PSUs of the initial sample, as follows:
+$$w_{kjh}^b=\frac{n_h}{n_h-1}w_{kjh}$$
+
+## Rao–Wu Bootstrap
+
+- the replicate weights $w_{kjh}^b$ are computed for all units selected in the original PSU sample regardless of whether they are included in the Bootstrap replicate.
+- using the replicate weights $w_{kjh}^b$, the estimate of the indicator of interest $\hat \theta$ is computed.
+- the process of the previous points is repeated $B$ times, so we obtain $\hat \theta_{(1)},\hat \theta_{(2)},\dots,\hat \theta_{(B)}$ estimates.
+
+## Rao–Wu Bootstrap
+
+Finally, the variance estimated using the Rao–Wu Bootstrap is given by:
+
+$$\hat V_{\text{boot}}(\hat \theta)=\frac{1}{B}\times \sum\limits_{b=1}^B(\hat \theta_{(b)}-\hat \theta)^2$$

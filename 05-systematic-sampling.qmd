@@ -1,0 +1,157 @@
+---
+title: "Systematic Sampling"
+subtitle: "Sampling I · Bachelor's Degree in Statistics"
+author: "Juan Pablo Ferreira"
+institute: "School of Economics (UDELAR) · juanpablo.ferreira@fcea.edu.uy"
+date: "2024"
+date-format: "YYYY"
+title-slide-attributes:
+  data-background-image: images/logo-fcea.png
+  data-background-size: 108px
+  data-background-position: 34px 30px
+format:
+  revealjs:
+    theme: [default, theme/custom.scss]
+    transition: slide
+    transition-speed: default
+    background-transition: fade
+    slide-number: c/t
+    incremental: true
+    progress: true
+    history: true
+    center: false
+    width: 1200
+    height: 800
+    margin: 0.07
+    scrollable: true
+    html-math-method: mathjax
+    embed-resources: true
+---
+
+# Introduction
+
+## Introduction
+
+- an alternative method for selecting a sample with equal selection probabilities
+- offers practical advantages
+    1. in situ (i.e. sample selection can be carried out in the field)
+    2. easy to implement
+
+## Introduction
+
+::: {.block}
+::: {.block-title}
+Idea
+:::
+one individual is selected at random among the first $G$ individuals of the list (frame).
+:::
+
+- $G=$ sampling interval
+- $G$ is an integer and chosen in advance
+
+The rest of the sample is determined by systematically choosing every $G$-th individual.
+
+There are only $G$ distinct/possible samples, i.e. $p(s)=G^{-1}$.
+
+## Definition
+
+Let $G=N/n$ be the sampling interval and $n$ the integer part of $N/G$:
+
+$$N=nG+c$$
+
+where $0\leq c \leq G$.
+
+The sample size can be $n$ or $n+1$.
+
+## Selection method
+
+As a first step, we select an integer among $\{1,2,\dots,G\}$.
+
+If $r$ (any individual) is selected, then:
+
+$$
+  s_r =
+    \begin{cases}
+      \{ r, r+G, r+2G,\dots,r+(n-1)G \} & \text{if } c<r \leq G\\
+      \{ r, r+G, r+2G,\dots,r+nG \} & \text{if } 1 \leq r \leq c
+    \end{cases}
+$$
+
+**Inclusion probabilities**
+
+$$\pi_i=\text{Prob}(i\in s)=1/G$$
+
+$$
+  \pi_{ij} =
+    \begin{cases}
+      1/G & \text{if } i, j \text{ belong to the same sample}\\
+      0 & \text{otherwise}
+    \end{cases}
+$$
+
+## Selection method
+
+- the systematic design is NOT measurable
+- there is no unbiased estimator of the variance
+
+# The HT Estimator
+
+## Important
+
+The systematic design can be viewed as selecting a single cluster (group) out of the $G$ possible ones.
+
+To select the sample, the population $U$ is partitioned into $G$ clusters:
+
+$$U = U_1\cup U_2\cup\dots\cup U_G $$
+$$N=\sum\limits_{r=1}^G N_r $$
+
+The total of variable $y$ can be written as:
+
+$$Y=\sum\limits_{i\in U}y_i=\sum\limits_{r=1}^G\sum\limits_{i\in U_r}y_i=\sum\limits_{r=1}^G t_r$$
+
+## HT estimator
+
+The HT estimator for $Y$ is:
+
+$$\hat Y_{\text{HT}}=G\left(\sum\limits_{i\in U_r}y_i\right)=G\times t_r$$
+
+The variance of the estimator $\hat Y_{\text{HT}}$ is:
+
+$$V_{SY}(\hat Y_{\text{HT}})=G^2(1-1/G)\,\text{var}[t_r] =G\sum\limits_{r=1}^G(t_r-\bar t)^2$$
+
+where $\text{var}[t_r]=(G-1)^{-1}\sum\limits_{r=1}^G(t_r-\bar t)^2$ with $\bar t=\sum\limits_{r=1}^G t_r/G$.
+
+## Systematic variance
+
+If we assume that $N=nG$:
+
+$$V(\hat Y_{\text{HT}})=G\sum\limits_{r=1}^G(t_r-\bar t)^2=Gn^2\sum\limits_{r=1}^G(\bar y_r-\bar y_U)^2$$
+
+We can decompose the variability using ANOVA:
+
+$$\sum\limits_{i \in U}(y_i-\bar y_U)^2=\sum\limits_{r=1}^G\sum\limits_{i\in U_r}(y_i-\bar y_r)^2+n\sum\limits_{r=1}^G(\bar y_r-\bar y_U)^2$$
+
+$$SST=SSW+SSB$$
+
+For the design to be "efficient", the samples must be similar to each other and very heterogeneous "within".
+
+$$V_{SY}=Gn\,(SSB) $$
+
+## Intra-sample heterogeneity coefficient
+
+$$\delta = 1 - \left[\frac{N-1}{N-G}\frac{SSW}{SST}\right]$$
+
+- If $SSW=0$ (worst case), $\delta=1$ (maximum value).
+- If $SSB=0$ then $SST=SSW$, $\delta=-\left[\frac{G-1}{N-G}\right]$ (minimum value).
+
+## Design effect
+
+Under a systematic design (SY) where $N=Gn$:
+
+$$V_{SY}=\frac{N^2\,\text{var}_U[y]}{n}\left[(1-f)+(n-1)\delta\right] $$
+
+Then,
+
+$$\text{deff}(SY,\hat Y_{\text{HT}})=1+\frac{n-1}{1-f}\delta $$
+
+the systematic design is more efficient if $\delta<0$ (i.e. $SSW>SST$).

@@ -1,0 +1,215 @@
+---
+title: "Cluster Sampling"
+subtitle: "Sampling I · Bachelor's Degree in Statistics"
+author: "Juan Pablo Ferreira"
+institute: "School of Economics (UDELAR) · juanpablo.ferreira@fcea.edu.uy"
+date: "2024"
+date-format: "YYYY"
+title-slide-attributes:
+  data-background-image: images/logo-fcea.png
+  data-background-size: 108px
+  data-background-position: 34px 30px
+format:
+  revealjs:
+    theme: [default, theme/custom.scss]
+    transition: slide
+    transition-speed: default
+    background-transition: fade
+    slide-number: c/t
+    incremental: true
+    progress: true
+    history: true
+    center: false
+    width: 1200
+    height: 800
+    margin: 0.07
+    scrollable: true
+    html-math-method: mathjax
+    embed-resources: true
+---
+
+# Introduction
+
+## Introduction
+
+::: {.block}
+::: {.block-title}
+So far...
+:::
+direct sampling (i.e. the sampling unit = the analysis unit)
+:::
+
+In practice, it is not always possible to sample elements directly. This is because:
+
+- there is no sampling frame $F$ and the cost of building it is excessive.
+- **cost reasons:** if the survey is conducted face-to-face, a sample with lower geographic spread lets us carry out more cases ("$n$") at a lower cost (compared to direct sampling).
+
+## Cluster sampling
+
+The population is grouped into disjoint subpopulations we call clusters.
+
+- Single-stage cluster sampling. The clusters are called Primary Sampling Units (PSUs). A sample of PSUs is selected and **all** individuals in the selected PSUs are surveyed.
+- Two-stage sampling: for the PSUs in the first-stage sample, a random sample of Secondary Sampling Units (SSUs) is selected.
+- Multistage. There are three or more selection stages.
+
+## Notation
+
+The interest is to estimate the total of variable $y$:
+
+$$Y=\sum\limits_{k\in U}y_k$$
+
+The population $U=\{1,\dots,k,\dots,N\}$ is partitioned into $N_I$ subpopulations called clusters, $U_1,\dots,U_i,\dots,U_{N_I}$. For simplicity, we denote the population of clusters as
+
+$$
+U_I=\left\{1,\dots,i,\dots,N_I\right\}
+$$
+
+$M_i=\#U_i$ is the size of cluster $i$ and
+
+$$U=\bigcup_{i \in U_I}U_i\quad\text{and}\quad N=\sum_{i\in U_I}M_i$$
+
+## Selection mechanism
+
+- A sample $s_I$ of $U_I$ is selected according to a design $p_I(\cdot)$. The sample size is $n_I=\#s_I$ for a fixed-size design and $n_{s_I}$ for a random-size design.
+- All the population elements in the selected cluster are observed.
+
+$$s=\bigcup_{i \in s_I}U_i\quad\text{and}\quad n_s=\sum_{i\in s_I}M_i$$
+
+**Remark:** although $p_I(\cdot)$ may be of fixed size, the final number of individuals is random.
+
+## Inclusion probabilities
+
+**Cluster inclusion probabilities**
+$$
+\pi_{Ii}=\sum_{s_I;\, i \in s_I}p_I(s_I)\qquad \pi_{Iij}=\sum_{s_I;\, i,j \in s_I}p_I(s_I)
+$$
+
+$$
+\pi_{Iii}=\pi_{Ii}
+$$
+
+**Individual inclusion probabilities**
+
+Since we observe all individuals of the selected cluster $i$:
+$$
+\pi_k=\pi_{Ii}
+$$
+and
+$$
+\pi_{kl}= \begin{cases}
+             \pi_{Ii} & \text{if } k \text{ and } l\in U_i\\
+             \pi_{Iij}& \text{if } k\in U_i \text{ and } l\in U_j
+             \end{cases}
+$$
+
+# The HT Estimator
+
+## HT estimator
+
+Define $Y_i=\sum\limits_{k\in U_i}y_k$ the total of cluster $i$. Then:
+
+$$Y=\sum\limits_U y_k=\sum\limits_{i \in U_I}Y_i$$
+
+In cluster sampling the estimator of the total $Y$ is:
+
+$$
+\hat{Y}_{\text{HT}}=\sum\limits_{i\in s_I}\frac{Y_i}{\pi_{Ii}}
+$$
+
+## HT estimator
+
+The variance of the estimator is:
+
+$$
+V(\hat{Y}_{\text{HT}})=\sum\limits_{i \in U_I}\sum\limits_{j \in U_I}\Delta_{Iij}\frac{Y_i}{\pi_{Ii}}\frac{Y_j}{\pi_{Ij}}
+$$
+where $\Delta_{Iij}=\pi_{Iij}-\pi_{Ii}\pi_{Ij}$.
+
+And the variance estimator is:
+
+$$
+\hat V(\hat{Y}_{\text{HT}})=\sum\limits_{i \in s_I}\sum\limits_{j \in s_I}\frac{\Delta_{Iij}}{\pi_{Iij}}\frac{Y_i}{\pi_{Ii}}\frac{Y_j}{\pi_{Ij}}
+$$
+
+## HT estimator
+
+If the design $p_I(\cdot)$ is of fixed size:
+
+$$
+V(\hat{Y}_{\text{HT}})=-\frac{1}{2}\sum\limits_{i\in U_I}\sum\limits_{j\in U_I}\Delta_{Iij}\left(\frac{Y_i}{\pi_{Ii}}-\frac{Y_j}{\pi_{Ij}}\right)^2
+$$
+
+$$
+\hat V(\hat{Y}_{\text{HT}})=-\frac{1}{2}\sum\limits_{i\in s_I}\sum\limits_{j\in s_I}\frac{\Delta_{Iij}}{\pi_{Iij}}\left(\frac{Y_i}{\pi_{Ii}}-\frac{Y_j}{\pi_{Ij}}\right)^2
+$$
+
+Assume the design $p_I(\cdot)$ is of fixed size. If the $Y_i/\pi_{Ii}$ are similar, $V(\hat{Y}_{\text{HT}}) \doteq 0$.
+
+**How do we achieve this?** By taking $\pi_{Ii} \propto \text{total}$.
+
+One option, if $M_i$ is known, is to take $\pi_{Ii} \propto M_i$, provided the $\bar{Y}_{i}$ are similar.
+
+# Simple Cluster Sampling (SIC)
+
+## SIC design
+
+A simple sample $s_I$ of $n_I$ elements is selected from the $N_I$ elements of $U_I$.
+
+The first-order inclusion probability is:
+$$\pi_{Ii}=n_I/N_I$$
+
+The HT estimator of $Y$ is:
+$$
+\hat{Y}_{\text{HT}}=\sum\limits_{i\in s_I}\frac{Y_i}{\pi_{Ii}}=N_I\bar{Y}_{s_I}
+$$
+where $\bar{Y}_{s_I}=\sum\limits_{i \in s_I}Y_i/n_I$.
+
+## SIC design
+
+The variance of the estimator is:
+
+$$
+V_{SIC}(\hat{Y}_{\text{HT}})=N_I^2(1-n_I/N_I)\frac{\text{var}_{U_I}[Y_i]}{n_I}
+$$
+where
+$$
+\text{var}_{U_I}[Y_i]=\frac{1}{N_I-1}\sum\limits_{i \in U_I}\left(Y_i-\bar{Y}_{U_I}\right)^2
+$$
+and $\bar{Y}_{U_I}=\sum\limits_{i \in U_I}Y_i/N_I$.
+
+The variance estimator is:
+
+$$
+\hat{V}_{SIC}(\hat{Y}_{\text{HT}})=N_I^2(1-n_I/N_I)\frac{\text{var}_{s_I}[Y_i]}{n_I}
+$$
+where
+$$
+\text{var}_{s_I}[Y_i]=\frac{1}{n_I-1}\sum\limits_{i \in s_I}\left(Y_i-\bar{Y}_{s_I}\right)^2
+$$
+
+## Intra-cluster heterogeneity coefficient
+
+$$\delta = 1 - \frac{N-N_I}{N-1}\frac{SSW}{SST}$$
+where
+$$SSW=\sum\limits_{i\in U_I}\sum\limits_{k\in U_i}(y_k-\bar Y_i)^2$$
+and $\bar Y_i$ is the average of cluster $i$.
+
+$$-\frac{N_I-1}{N-N_I}\leq \delta \leq 1$$
+
+The "ideal" is for $\delta$ to be as small as possible, since that implies that the variability is within the clusters.
+
+## Design effect
+
+**Case 1:** if the clusters are all of the same size ($M$):
+
+$$\text{deff}(SIC,\hat Y_{HT})\approx 1+(M-1)\delta $$
+
+in practice $\delta$ is generally positive (the clusters are homogeneous). Therefore, SIC will be less efficient than SRS.
+
+**Case 2:** the clusters are of different sizes.
+
+Assume the best-case scenario $\delta=-\frac{N_I-1}{N-N_I}$:
+
+$$\text{deff}(SIC,\hat Y_{HT})= \bar M \left(\frac{cv_{U_I}[M]}{cv_{U}[y]}\right)^2$$
+
+Therefore, SIC is inefficient compared to SRS if the clusters are homogeneous and/or vary in size.

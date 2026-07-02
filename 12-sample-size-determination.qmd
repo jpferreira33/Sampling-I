@@ -1,0 +1,85 @@
+---
+title: "Sample Size Determination"
+subtitle: "Sampling I · Bachelor's Degree in Statistics"
+author: "Juan Pablo Ferreira"
+institute: "School of Economics (UDELAR) · juanpablo.ferreira@fcea.edu.uy"
+date: "2024"
+date-format: "YYYY"
+title-slide-attributes:
+  data-background-image: images/logo-fcea.png
+  data-background-size: 108px
+  data-background-position: 34px 30px
+format:
+  revealjs:
+    theme: [default, theme/custom.scss]
+    transition: slide
+    transition-speed: default
+    background-transition: fade
+    slide-number: c/t
+    incremental: true
+    progress: true
+    history: true
+    center: false
+    width: 1200
+    height: 800
+    margin: 0.07
+    scrollable: true
+    html-math-method: mathjax
+    embed-resources: true
+---
+
+# Introduction
+
+## Introduction
+
+The determination of the sample size $n$ for a survey must be computed taking into account the analytical goals of the survey:
+
+- $\text{moe}=\text{const}\times \text{SE}(\hat \theta)$ for different parameters at the level of $U$
+- $moe$ at the level of different domains (breakdowns)
+
+## Introduction
+
+In practice:
+
+- sampling designs are complex (SEs hard to compute)
+- frames are imperfect ($U\neq F$)
+- there are problems unrelated to sampling (e.g. nonresponse)
+- budgets are limited
+
+The challenge is to find an approximate $n$ that satisfies (as far as possible) all of the above.
+
+## Standard errors (SE)
+
+The SE depends on several factors:
+
+- how different the units of the population are ($\text{var}_U[y]$)
+- the sample size ($n$)
+- the population size ($N$). Although it only matters when the sampling rate $f=n/N$ is large (e.g. greater than 0.10)
+- the sampling design (i.e. the selection strategy used to select the sample)
+- the estimation method
+
+# Steps
+
+## Sample size determination (step 1)
+
+As a first step we assume simple random sampling without replacement (SIR) and that the parameter of interest is the mean $\bar Y$.
+
+The sample size $n$ to estimate $\bar Y$ is:
+
+$$n_{0}= (z^{*}\times \text{sd}[y]\times \text{moe}^{-1})^2$$
+
+where $\text{var}[y]$ may come from a pilot ("illumination") sample, previous surveys, or from a variable $x$ correlated with the variable of interest $y$.
+
+## Sample size determination (step 2)
+
+If the population size $N$ is small and/or the sampling rate $f$ is not negligible, $n_0$ is adjusted:
+
+$$n_1= \frac{n_0}{1+n_0/N}$$
+
+## Step 3
+
+The design effect (deff) can be used to adjust the sample size if the sampling design used is more "complex" than SRS:
+
+$$ n_{eff}=n_{1} \times \text{deff} $$
+
+where the deff is generally computed using previous samples (for the key parameter) or by making assumptions (in the absence of information, in practice it is set between 1.5 and 2).

@@ -12,21 +12,20 @@ format:
 A collection of reveal.js slide decks for the **Sampling I** course.
 Open each presentation below (render with `quarto render` first to produce the `.html`).
 
-1. [Introduction to Sample Surveys](01-introduction.html)
-2. [Random Sampling](02-random-sampling.html)
-3. [The Horvitz–Thompson Estimator](03-horvitz-thompson.html)
-4. [Bernoulli Sampling](04-bernoulli-sampling.html)
-5. [Systematic Sampling](05-systematic-sampling.html)
-6. [With-Replacement Designs](06-with-replacement-designs.html)
-7. [Poisson Sampling](07-poisson-sampling.html)
-8. [Probability Proportional to Size (PPS)](08-pps-sampling.html)
-9. [Stratified Sampling](09-stratified-sampling.html)
-10. [Cluster Sampling](10-cluster-sampling.html)
-11. [Two-Stage Sampling](11-two-stage-sampling.html)
-12. [Sample Size Determination](12-sample-size-determination.html)
-13. [Variance Estimation](13-variance-estimation.html)
-14. [Introduction to Domain Estimation](14-domain-estimation.html)
-15. [Introduction to Complex Estimators](15-complex-estimators.html)
+1. [Random Sampling](01-random-sampling.html)
+2. [The Horvitz–Thompson Estimator](02-horvitz-thompson.html)
+3. [Bernoulli Sampling](03-bernoulli-sampling.html)
+4. [Systematic Sampling](04-systematic-sampling.html)
+5. [With-Replacement Designs](05-with-replacement-designs.html)
+6. [Poisson Sampling](06-poisson-sampling.html)
+7. [Probability Proportional to Size (PPS)](07-pps-sampling.html)
+8. [Stratified Sampling](08-stratified-sampling.html)
+9. [Cluster Sampling](09-cluster-sampling.html)
+10. [Two-Stage Sampling](10-two-stage-sampling.html)
+11. [Sample Size Determination](11-sample-size-determination.html)
+12. [Variance Estimation](12-variance-estimation.html)
+13. [Introduction to Domain Estimation](13-domain-estimation.html)
+14. [Introduction to Complex Estimators](14-complex-estimators.html)
 
 ---
 
